@@ -7,6 +7,7 @@ const Governor = () => import('@/views/governor/index.vue')
 const Excitation = () => import('@/views/excitation/index.vue')
 const Transformer = () => import('@/views/transformer/index.vue')
 const Gate = () => import('@/views/gate/index.vue')
+const Crane = () => import('@/views/crane/index.vue')
 const Seepage = () => import('@/views/seepage/index.vue')
 const Displacement = () => import('@/views/displacement/index.vue')
 const Trashrack = () => import('@/views/trashrack/index.vue')
@@ -31,6 +32,7 @@ const router = createRouter({
     { path: '/excitation', name: 'excitation', component: Excitation },
     { path: '/transformer', name: 'transformer', component: Transformer },
     { path: '/gate', name: 'gate', component: Gate },
+    { path: '/crane', name: 'crane', component: Crane },
     { path: '/seepage', name: 'seepage', component: Seepage },
     { path: '/displacement', name: 'displacement', component: Displacement },
     { path: '/trashrack', name: 'trashrack', component: Trashrack },

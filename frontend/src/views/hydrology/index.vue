@@ -24,6 +24,8 @@
       </span>
     </p>
 
+    <CraneTodoPanel module-key="hydrology" />
+
     <form class="filter-bar" @submit.prevent="reload">
       <label v-for="field in filterFields" :key="field" class="filter-item">
         <span>{{ field }}</span>
@@ -79,6 +81,7 @@ import {
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
+import CraneTodoPanel from '@/components/CraneTodoPanel.vue'
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('hydrology')

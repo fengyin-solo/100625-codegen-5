@@ -57,3 +57,39 @@ export function resetRows(key: string): EntryRow[] {
 export function storageKey(): string {
   return STORAGE_KEY
 }
+
+// 迁移游标这类「不属于业务清单」的小状态单独放一份，不和业务数据混在一起。
+const SETTINGS_KEY = 'hydropower-plant-om:settings'
+
+export function readSetting<T>(key: string, fallback: T): T {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return fallback
+  }
+  const raw = window.localStorage.getItem(SETTINGS_KEY)
+  if (!raw) {
+    return fallback
+  }
+  try {
+    const parsed = JSON.parse(raw) as Record<string, unknown>
+    return (parsed[key] as T) ?? fallback
+  } catch {
+    return fallback
+  }
+}
+
+export function writeSetting<T>(key: string, value: T): void {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return
+  }
+  let parsed: Record<string, unknown> = {}
+  const raw = window.localStorage.getItem(SETTINGS_KEY)
+  if (raw) {
+    try {
+      parsed = JSON.parse(raw) as Record<string, unknown>
+    } catch {
+      parsed = {}
+    }
+  }
+  parsed[key] = value
+  window.localStorage.setItem(SETTINGS_KEY, JSON.stringify(parsed))
+}
