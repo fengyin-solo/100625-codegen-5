@@ -11,6 +11,8 @@
       </div>
     </header>
 
+    <CrossModuleTodos target="gate" />
+
     <div class="stat-row">
       <article v-for="item in stats" :key="item.label" class="stat-card">
         <span class="stat-label">{{ item.label }}</span>
@@ -73,12 +75,14 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
+import CrossModuleTodos from '@/views/crane/CrossModuleTodos.vue'
 import {
   downloadEntries,
   listEntries,
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
+import { activeTodos, gateActionBlocked } from '@/api/crane-service'
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('gate')
@@ -114,6 +118,11 @@ function openCreate() {
 
 function runAction(action: string, row: EntryRow) {
   errorMessage.value = ''
+  const block = gateActionBlocked(String(row['闸门编号']), action)
+  if (block) {
+    errorMessage.value = block
+    return
+  }
   const result = applyAction(meta.key, Number(row.id), action)
   if (!result.ok) {
     errorMessage.value = result.message
